@@ -1,8 +1,14 @@
-### AhsokaPE
-For learning
+# TODO
+Fix my old path issues
+Refactor
+Implement Puppet
+Have Pupper install zero touch
+Implement PXE
+Add Korean Language
+..
+Fix EN-GB install
 
 
-# Private folder hosts assets
-
-# Software currently
+## Software currently
+Windows Server 2022
 Puppet-Agent 7.13.1 
