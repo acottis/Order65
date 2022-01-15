@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <servicing></servicing>
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <InputLocale>0809:00000809</InputLocale>
+            <SystemLocale>en-GB</SystemLocale>
+            <UILanguage>en-GB</UILanguage>
+            <UILanguageFallback>en-GB</UILanguageFallback>
+            <UserLocale>en-GB</UserLocale>
+        </component>
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <AutoLogon>
+                <Password>
+                    <Value>UABhAHMAcwB3ADAAcgBkACEAUABhAHMAcwB3AG8AcgBkAA==</Value>
+                    <PlainText>false</PlainText>
+                </Password>
+                <Enabled>true</Enabled>
+                <Username>Administrator</Username>
+                <LogonCount>1</LogonCount>
+            </AutoLogon>
+            <DesktopOptimization>
+                <ShowWindowsStoreAppsOnTaskbar>false</ShowWindowsStoreAppsOnTaskbar>
+            </DesktopOptimization>
+            <OOBE>
+                <HideEULAPage>true</HideEULAPage>
+                <HideLocalAccountScreen>true</HideLocalAccountScreen>
+                <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+                <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+                <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+                <ProtectYourPC>3</ProtectYourPC>
+            </OOBE>
+            <Themes>
+                <UWPAppsUseLightTheme>false</UWPAppsUseLightTheme>
+                <SystemUsesLightTheme>false</SystemUsesLightTheme>
+            </Themes>
+            <UserAccounts>
+                <AdministratorPassword>
+                    <Value>UABhAHMAcwB3ADAAcgBkACEAQQBkAG0AaQBuAGkAcwB0AHIAYQB0AG8AcgBQAGEAcwBzAHcAbwByAGQA</Value>
+                    <PlainText>false</PlainText>
+                </AdministratorPassword>
+            </UserAccounts>
+            <WindowsFeatures>
+                <ShowInternetExplorer>false</ShowInternetExplorer>
+                <ShowMediaCenter>false</ShowMediaCenter>
+                <ShowWindowsMediaPlayer>false</ShowWindowsMediaPlayer>
+            </WindowsFeatures>
+            <OEMInformation>
+                <Manufacturer>Grand Army of the Republic</Manufacturer>
+                <Model>501st</Model>
+                <SupportURL>https://starwars.fandom.com/wiki/Grand_Army_of_the_Republic</SupportURL>
+                <Logo>C:\Windows\System32\oemlogo.bmp</Logo>
+            </OEMInformation>
+            <RegisteredOwner>Commander Tano</RegisteredOwner>
+            <RegisteredOrganization>Grand Army of the Republic</RegisteredOrganization>
+            <TimeZone>GMT Standard Time</TimeZone>
+            <BluetoothTaskbarIconEnabled>false</BluetoothTaskbarIconEnabled>
+        </component>
+    </settings>
+    <settings pass="windowsPE">
+        <component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <SetupUILanguage>
+                <UILanguage>en-GB</UILanguage>
+                <WillShowUI>Never</WillShowUI>
+            </SetupUILanguage>
+            <InputLocale>0809:00000809</InputLocale>
+            <SystemLocale>en-GB</SystemLocale>
+            <UILanguage>en-US</UILanguage>
+            <UILanguageFallback>en-US</UILanguageFallback>
+            <UserLocale>en-GB</UserLocale>
+            <LayeredDriver>1</LayeredDriver>
+        </component>
+        <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <ComplianceCheck>
+                <DisplayReport>Never</DisplayReport>
+            </ComplianceCheck>
+            <Diagnostics>
+                <OptIn>false</OptIn>
+            </Diagnostics>
+            <DiskConfiguration>
+                <WillShowUI>Never</WillShowUI>
+                <Disk wcm:action="add">
+                    <CreatePartitions>
+                        <CreatePartition wcm:action="add">
+                            <Order>1</Order>
+                            <Size>450</Size>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>4</Order>
+                            <Extend>true</Extend>
+                            <Type>Primary</Type>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Type>MSR</Type>
+                            <Size>16</Size>
+                            <Order>3</Order>
+                        </CreatePartition>
+                        <CreatePartition wcm:action="add">
+                            <Order>2</Order>
+                            <Size>100</Size>
+                            <Type>EFI</Type>
+                        </CreatePartition>
+                    </CreatePartitions>
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+                </Disk>
+            </DiskConfiguration>
+            <DynamicUpdate>
+                <Enable>true</Enable>
+                <WillShowUI>Never</WillShowUI>
+            </DynamicUpdate>
+            <ImageInstall>
+                <OSImage>
+                    <InstallFrom>
+                        <MetaData wcm:action="add">
+                            <Key>/IMAGE/INDEX</Key>
+                            <Value>2</Value>
+                        </MetaData>
+                        <Path>Z:\Deploy\Windows\2022\sources\install.wim</Path>
+                    </InstallFrom>
+                    <InstallToAvailablePartition>true</InstallToAvailablePartition>
+                    <WillShowUI>Never</WillShowUI>
+                </OSImage>
+            </ImageInstall>
+            <UserData>
+                <ProductKey>
+                    <WillShowUI>Never</WillShowUI>
+                </ProductKey>
+                <AcceptEula>true</AcceptEula>
+                <Organization>501st</Organization>
+                <FullName>Ahsoka Tano</FullName>
+            </UserData>
+        </component>
+    </settings>
+    <settings pass="generalize">
+        <component name="Microsoft-Windows-ServerManager-SvrMgrNc" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <DoNotOpenServerManagerAtLogon>true</DoNotOpenServerManagerAtLogon>
+        </component>
+    </settings>
+    <settings pass="specialize">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <OEMInformation>
+                <Manufacturer>Grand Army of the Republic</Manufacturer>
+                <Model>501st</Model>
+                <SupportURL>https://starwars.fandom.com/wiki/Grand_Army_of_the_Republic</SupportURL>
+                <Logo>C:\Windows\System32\oemlogo.bmp</Logo>
+            </OEMInformation>
+            <TimeZone>GMT Standard Time</TimeZone>
+            <RegisteredOwner>Commander Tano</RegisteredOwner>
+            <RegisteredOrganization>Grand Army of the Republic</RegisteredOrganization>
+            <BluetoothTaskbarIconEnabled>false</BluetoothTaskbarIconEnabled>
+            <OEMName>Grand Army of the Republic</OEMName>
+        </component>
+    </settings>
+    <cpi:offlineImage cpi:source="wim://bestpcgargunnoc/iso/2022/sources/install.wim#Windows Server 2022 SERVERSTANDARD" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+</unattend>
