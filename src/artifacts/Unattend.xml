@@ -117,7 +117,7 @@
                             <Key>/IMAGE/INDEX</Key>
                             <Value>2</Value>
                         </MetaData>
-                        <Path>Z:\Deploy\Windows\2022\sources\install.wim</Path>
+                        <Path>Z:\Windows\2022\sources\install.wim</Path>
                     </InstallFrom>
                     <InstallToAvailablePartition>true</InstallToAvailablePartition>
                     <WillShowUI>Never</WillShowUI>

@@ -22,3 +22,42 @@ function Update-AclFullAccess{
     Set-Acl -Path $path -AclObject $acl
 
 }
+
+# Sets the PE image by changing the permissions of the original and deleting it
+function Set-WinPEImg{
+    param (
+        [Parameter(mandatory)]
+        [String]
+        $Path,
+        [Parameter(mandatory)]
+        [String]
+        $Destination
+    )
+    try{
+        Update-AclFullAccess -path $Destination
+        Remove-Item -path $Destination
+    }catch{
+        write-host "winpe.jpg already removed" -ForegroundColor DarkYellow
+    }
+    Copy-Item -Path $Path -Destination $Destination
+}
+
+function Set-StartnetCmd{
+
+    param(
+        [Parameter(mandatory)]
+        [String]
+        $Path,
+        [Parameter(mandatory)]
+        [String]
+        $Destination
+    )
+
+    Update-AclFullAccess -path $Destination
+    Remove-Item -Path $Destination
+
+    Copy-Item -Path .\artifacts\startnet.cmd -destination $Destination
+    Add-Content -Path $Destination -Value "`r`n"
+    Add-Content -Path $Destination -Value "net use Z: \\$($global:Config.Image_Server)\Deploy /user:$($global:Config.Image_Server_User) $($global:Config.Image_Server_Pass)"
+    Add-Content -Path $Destination -Value "Z:\Windows\2022\setup.exe -unattend:`"Z:\Windows\2022\Unattend.xml`""
+}

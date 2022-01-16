@@ -1,0 +1,10 @@
+{
+    "AssessAndDeployKitEnvPath": "C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Deployment Tools\\DandISetEnv.bat",
+    "WinPE_OCs_Path": "C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs",
+    "BaseDir": "D:\\DELPOY",
+    "PE_BG_Path": "artifacts\\ahsoka_background.jpg",
+    "PE_Startnet_Path": "artifacts\\startnet.cmd",
+    "Image_Server": "BESTPCGARGUNNOCK",
+    "Image_Server_User": "bot",
+    "Image_Server_Pass": "iamabot"
+}

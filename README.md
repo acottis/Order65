@@ -1,12 +1,13 @@
 # TODO
-Fix my old path issues
-Refactor
-Implement Puppet
-Have Pupper install zero touch
-Implement PXE
-Add Korean Language
-..
-Fix EN-GB install
+* Fix my old path issues
+* Refactor
+* Implement Puppet
+* Have Pupper install zero touch
+* Implement PXE
+* Add Korean Language
+* ..
+* ..
+* Fix EN-GB install
 
 
 ## Software currently
