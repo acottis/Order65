@@ -7,9 +7,6 @@ function New-WinPE{
         [bool]
         $Nuke = $false # Wipe out the exisiting image and files
     )
-
-    # Our base directory for all things PE
-    $global:Config = Get-Content -Path config.json | ConvertFrom-Json
     
     $PE_File_Dir = "$($Config.BaseDir)\Staging\WinPE_amd64"
     $PE_ISO_Path = "$($Config.BaseDir)\Staging\WinPE_amd64.iso"

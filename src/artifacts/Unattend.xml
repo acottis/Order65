@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
-    <servicing></servicing>
+    <servicing>
+        <package action="configure" permanence="permanent">
+            <assemblyIdentity name="Microsoft-Windows-Server-LanguagePack-Package" version="10.0.20348.1" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="en-GB" />
+        </package>
+    </servicing>
     <settings pass="oobeSystem">
         <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <InputLocale>0809:00000809</InputLocale>
@@ -66,7 +70,7 @@
             <InputLocale>0809:00000809</InputLocale>
             <SystemLocale>en-GB</SystemLocale>
             <UILanguage>en-US</UILanguage>
-            <UILanguageFallback>en-US</UILanguageFallback>
+            <UILanguageFallback>en-GB</UILanguageFallback>
             <UserLocale>en-GB</UserLocale>
             <LayeredDriver>1</LayeredDriver>
         </component>
@@ -153,5 +157,5 @@
             <OEMName>Grand Army of the Republic</OEMName>
         </component>
     </settings>
-    <cpi:offlineImage cpi:source="wim://bestpcgargunnoc/iso/2022/sources/install.wim#Windows Server 2022 SERVERSTANDARD" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
+    <cpi:offlineImage cpi:source="wim://bestpcgargunnoc/deploy/windows/2022/sources/install.wim#Windows Server 2022 SERVERSTANDARD" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
 </unattend>
