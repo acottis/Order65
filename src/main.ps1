@@ -15,7 +15,7 @@ $global:Config = Get-Content -Path config.json | ConvertFrom-Json
 . .\setup_pe.ps1
 # Create our PE
 Write-Host "Starting PE Creation..." -ForegroundColor DarkGreen
-# New-WinPE -Nuke $Nuke -Powershell $Powershell
+New-WinPE -Nuke $Nuke -Powershell $Powershell
 
 . .\setup_os.ps1
 Write-Host "Starting Windows Image customization..." -ForegroundColor DarkGreen

@@ -1,8 +1,8 @@
 
 function Update-InstallWim{
     Param(
-        [bool]
-        $UpdateWindowsInstall = $false # Wipe out the exisiting image and files
+        [Parameter(Mandatory)]
+        [bool]$UpdateWinInstall = $false # Wipe out the exisiting image and files
     )
     ## Inject Language to install.wim, Index two is Server Standard Desktop Experience
     DISM /Mount-Image /imagefile:"$($global:Config.BaseDir)\Public\Windows\2022\sources\install.wim" /Index:2 /MountDir:"$($global:Config.BaseDir)\Staging\WinInstallMount"
