@@ -1,13 +1,15 @@
-function New-WinPE{
 
+function New-WinPE{
     param (
         # Install options
-        [bool]
-        $Powershell = $false, # Install powershell in the PE
-        [bool]
-        $Nuke = $false # Wipe out the exisiting image and files
+        [Parameter(Mandatory)]
+        [bool]$Powershell, # Install powershell in the PE
+        [Parameter(Mandatory)]
+        [bool]$Nuke # Wipe out the exisiting image and files
     )
     
+    . .\setup\helpers.ps1
+
     $PE_File_Dir = "$($Config.BaseDir)\Staging\WinPE_amd64"
     $PE_ISO_Path = "$($Config.BaseDir)\Staging\WinPE_amd64.iso"
     # Deployment and Imaging Tools Enviroment command line
@@ -19,6 +21,7 @@ function New-WinPE{
         DISM /Cleanup-Wim /Quiet
         # Write-Host "Unmounting old images..." -ForegroundColor Yellow
         # DISM /Unmount-Image /MountDir:"$($PE_File_Dir)\mount" /Discard /Quiet
+        DISM /Unmount-Image /MountDir:"$($global:Config.BaseDir)\Staging\WinInstallMount" /Discard /Quiet
         
         if (Test-Path $PE_File_Dir ) { Remove-Item -Path $PE_File_Dir  -Recurse -ErrorAction Stop }
         if (Test-Path $PE_ISO_Path) { Remove-Item -Path $PE_ISO_Path -ErrorAction Stop }

@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy bypass -File "%~dp0stage0.ps1"
