@@ -2,11 +2,15 @@
 function Update-InstallWim{
     ## Inject Language to install.wim, Index two is Server Standard Desktop Experience
     Write-Host "Mounting install.wim..." -ForegroundColor Yellow
-    DISM /Mount-Image /imagefile:"$($global:Config.BaseDir)\Public\Windows\2022\sources\install.wim" /Index:2 /MountDir:"$($global:Config.BaseDir)\Staging\WinInstallMount" /Quiet
-    
+    Mount-WindowsImage -ImagePath "$($global:Config.BaseDir)\Public\Windows\2022\sources\install.wim" `
+        -Path "$($global:Config.BaseDir)\Staging\WinInstallMount" -Index 2 -ErrorAction Stop
+
     Write-Host "Attempting to install en-GB in the install.wim..." -ForegroundColor Yellow
+    Write-Host "Setting the WinPE background..." -ForegroundColor Yellow
     if (!(Test-Path -Path "$($global:Config.BaseDir)\Staging\WinInstallMount\Windows\en-GB")){
-        Dism /Image:"$($global:Config.BaseDir)\Staging\WinInstallMount" /Add-Package /PackagePath="$($global:Config.BaseDir)\Staging\lang_packs\LanguagesAndOptionalFeatures\Microsoft-Windows-Server-Language-Pack_x64_en-gb.cab" /Quiet
+       # Dism /Image:"$($global:Config.BaseDir)\Staging\WinInstallMount" /Add-Package /PackagePath="$($global:Config.BaseDir)\Staging\lang_packs\LanguagesAndOptionalFeatures\Microsoft-Windows-Server-Language-Pack_x64_en-gb.cab" /Quiet
+        Add-WindowsPackage -Path "$($global:Config.BaseDir)\Staging\WinInstallMount" `
+            -PackagePath "$($global:Config.BaseDir)\Staging\lang_packs\LanguagesAndOptionalFeatures\Microsoft-Windows-Server-Language-Pack_x64_en-gb.cab"
         DISM /image:"$($global:Config.BaseDir)\Staging\WinInstallMount" /Set-AllIntl:en-gb /Quiet
     }else{
         Write-Host "Skipping en-GB install as it is already in the image" -ForgroundColor Yellow
@@ -14,7 +18,7 @@ function Update-InstallWim{
     write-host "Copying SetupComplete.cmd and scripts to install.wim..." -ForgroundColor Yellow
     Copy-Item -Path "$($global:Config.BaseDir)\src\Artifacts\Scripts" -Destination "$($global:Config.BaseDir)\Staging\WinInstallMount\Windows\Setup\Scripts" -Recurse -Force
     write-host "Unmounting and saving changes to install.wim..." -ForgroundColor Yellow
-    DISM /Unmount-Image /MountDir:"$($global:Config.BaseDir)\Staging\WinInstallMount" /Commit /quiet
+    Dismount-WindowsImage -Path "$($global:Config.BaseDir)\Staging\WinInstallMount" -Save -ErrorAction Stop
 }
 
 function Update-BootWim{

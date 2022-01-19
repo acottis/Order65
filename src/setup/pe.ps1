@@ -7,8 +7,6 @@ function New-WinPE{
         [Parameter(Mandatory)]
         [bool]$Nuke # Wipe out the exisiting image and files
     )
-    
-    . .\setup\helpers.ps1
 
     $PE_File_Dir = "$($Config.BaseDir)\Staging\WinPE_amd64"
     $PE_ISO_Path = "$($Config.BaseDir)\Staging\WinPE_amd64.iso"
@@ -21,7 +19,7 @@ function New-WinPE{
         DISM /Cleanup-Wim /Quiet
         # Write-Host "Unmounting old images..." -ForegroundColor Yellow
         # DISM /Unmount-Image /MountDir:"$($PE_File_Dir)\mount" /Discard /Quiet
-        DISM /Unmount-Image /MountDir:"$($global:Config.BaseDir)\Staging\WinInstallMount" /Discard /Quiet
+        DISM /Unmount-Image /MountDir:"$($Config.BaseDir)\Staging\WinInstallMount" /Discard /Quiet
         
         if (Test-Path $PE_File_Dir ) { Remove-Item -Path $PE_File_Dir  -Recurse -ErrorAction Stop }
         if (Test-Path $PE_ISO_Path) { Remove-Item -Path $PE_ISO_Path -ErrorAction Stop }
@@ -34,6 +32,7 @@ function New-WinPE{
     # Expand the boot.wim
     Write-Host "Expanding PE boot.wim from $($PE_File_Dir)\media\sources\boot.wim..." -ForegroundColor Yellow
     DISM /Mount-Image /imagefile:"$($PE_File_Dir)\media\sources\boot.wim" /Index:1 /MountDir:"$($PE_File_Dir)\mount" /Quiet
+    
     
     # WinPE-WMI > WinPE-NetFX > WinPE-Scripting before you install WinPE-PowerShell.
     # Mininmum required for powershell
@@ -70,5 +69,5 @@ function New-WinPE{
     DISM /Unmount-Image /MountDir:"$($PE_File_Dir)\mount" /Commit /Quiet
     
     # Create the ISO
-    cmd.exe /c """$($Config.AssessAndDeployKitEnvPath)"" && Makewinpemedia /iso /f $($PE_File_Dir) $($PE_ISO_Path)"
+    cmd.exe /c """$($Config.AssessAndDeployKitEnvPath)"" && Makewinpemedia /iso /f $($PE_File_Dir) $($PE_ISO_Path)" | Out-Null
 }
