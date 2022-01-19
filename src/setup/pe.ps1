@@ -8,6 +8,9 @@ function New-WinPE{
         [bool]$Nuke # Wipe out the exisiting image and files
     )
 
+    . "$($Config.BaseDir)\src\setup\pe.ps1"
+    . "$($Config.BaseDir)\src\setup\helpers.ps1"
+
     $PE_File_Dir = "$($Config.BaseDir)\Staging\WinPE_amd64"
     $PE_ISO_Path = "$($Config.BaseDir)\Staging\WinPE_amd64.iso"
     # Deployment and Imaging Tools Enviroment command line
@@ -16,10 +19,11 @@ function New-WinPE{
     if ($Nuke){
         # Ensure a flattened state
         Write-Host "Cleaning up old images..." -ForegroundColor Yellow
+        Clear-WindowsCorruptMountPoint
         DISM /Cleanup-Wim /Quiet
         # Write-Host "Unmounting old images..." -ForegroundColor Yellow
         # DISM /Unmount-Image /MountDir:"$($PE_File_Dir)\mount" /Discard /Quiet
-        DISM /Unmount-Image /MountDir:"$($Config.BaseDir)\Staging\WinInstallMount" /Discard /Quiet
+        # DISM /Unmount-Image /MountDir:"$($Config.BaseDir)\Staging\WinInstallMount" /Discard /Quiet
         
         if (Test-Path $PE_File_Dir ) { Remove-Item -Path $PE_File_Dir  -Recurse -ErrorAction Stop }
         if (Test-Path $PE_ISO_Path) { Remove-Item -Path $PE_ISO_Path -ErrorAction Stop }
@@ -69,5 +73,5 @@ function New-WinPE{
     DISM /Unmount-Image /MountDir:"$($PE_File_Dir)\mount" /Commit /Quiet
     
     # Create the ISO
-    cmd.exe /c """$($Config.AssessAndDeployKitEnvPath)"" && Makewinpemedia /iso /f $($PE_File_Dir) $($PE_ISO_Path)" | Out-Null
+    cmd.exe /c """$($Config.AssessAndDeployKitEnvPath)"" && Makewinpemedia /iso /f $($PE_File_Dir) $($PE_ISO_Path) 2>NUL" | Out-Null
 }
