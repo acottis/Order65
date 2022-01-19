@@ -2,9 +2,11 @@
 * ~~Fix my old path issues~~
 * ~~Refactor~~
 * ~~Fix EN-GB install~~
-* Answer file find and replace variables
+* ~~Answer file find and replace variables~~
+* ~~Have Puppet install zero touch~~
+* ~~Threading enabled~~
+* ~~Configurable Hostname and Windows Server Flavour~~
 * Implement Puppet
-* Have Pupper install zero touch
 * Implement PXE
 * Add Korean Language
 * ..

@@ -119,7 +119,7 @@
           <InstallFrom>
             <MetaData wcm:action="add">
               <Key>/IMAGE/INDEX</Key>
-              <Value>1</Value>
+              <Value>2</Value>
             </MetaData>
             <Path>Z:\Windows\2022\sources\install.wim</Path>
           </InstallFrom>

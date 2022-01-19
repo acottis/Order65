@@ -1,4 +1,4 @@
-enum BootIndex{
+enum Flavour{
     StandardCore = 1
     StandardDesktop = 2
     DatacenterCore = 3
@@ -11,13 +11,13 @@ function Set-WindowsInstallWim{
         [parameter(Mandatory)]
         [String]$WimPath,
         [parameter(Mandatory)]
-        [BootIndex]$Index,
+        [Flavour]$Flavour,
         [parameter(Mandatory)]
         [String]$UnattendXmlPath
     )
     [xml]$xml = Get-Content -Path $UnattendXmlPath
     $xml.unattend.settings.Where({$_.pass -eq 'windowsPE'}).component.where({$_.name -eq 'Microsoft-Windows-Setup'}).ImageInstall.OSImage.InstallFrom.path = $WimPath
-    $xml.unattend.settings.Where({$_.pass -eq 'windowsPE'}).component.where({$_.name -eq 'Microsoft-Windows-Setup'}).ImageInstall.OSImage.InstallFrom.Metadata.value = [String]([int]$Index)
+    $xml.unattend.settings.Where({$_.pass -eq 'windowsPE'}).component.where({$_.name -eq 'Microsoft-Windows-Setup'}).ImageInstall.OSImage.InstallFrom.Metadata.value = [String]([int]$Flavour)
     $xml.Save($UnattendXmlPath)
 }
 

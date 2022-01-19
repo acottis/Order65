@@ -89,9 +89,12 @@ if ($Sync){
 }
 
 # Update Unattend.xml
+$unattend = "$($PSScriptRoot)\artifacts\Unattend.xml"
+$server = Get-Content -Path "Server.json" | ConvertFrom-Json
 Write-Host "Updating Unattend.xml..." -ForegroundColor DarkGreen
-Set-Hostname -Hostname "Coruscant" -UnattendXmlPath $PSScriptRoot\artifacts\Unattend.xml
-Set-WindowsInstallWim -WimPath "Z:\Windows\2022\sources\install.wim" -Index StandardCore -UnattendXmlPath $PSScriptRoot\artifacts\Unattend.xml
+Set-Hostname -Hostname $server.Hostname -UnattendXmlPath $unattend
+Set-WindowsInstallWim -WimPath $server.WimPath -Flavour $server.Flavour  -UnattendXmlPath $unattend
+Copy-Item $unattend -Destination "$($global:Config.BaseDir)\Public\2022\"
 
 # Copy answer file to Network Image
 Write-Host "Copying answer file to Image..." -ForegroundColor DarkGreen
