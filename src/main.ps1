@@ -86,6 +86,7 @@ if ($Sync){
     # } while (Get-Job)
 
     get-job | wait-job
+    get-job | remove-job
 }
 
 # Update Unattend.xml
@@ -94,7 +95,7 @@ $server = Get-Content -Path "Server.json" | ConvertFrom-Json
 Write-Host "Updating Unattend.xml..." -ForegroundColor DarkGreen
 Set-Hostname -Hostname $server.Hostname -UnattendXmlPath $unattend
 Set-WindowsInstallWim -WimPath $server.WimPath -Flavour $server.Flavour  -UnattendXmlPath $unattend
-Copy-Item $unattend -Destination "$($global:Config.BaseDir)\Public\2022\"
+Copy-Item $unattend -Destination "$($global:Config.BaseDir)\Public\Windows\2022\Unattend.xml"
 
 # Copy answer file to Network Image
 Write-Host "Copying answer file to Image..." -ForegroundColor DarkGreen
