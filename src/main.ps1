@@ -21,7 +21,11 @@ if (!$admin) {
 }
 
 # Our base directory for all things PE
-$global:Config = Get-Content -Path config.json | ConvertFrom-Json
+$global:Config = Get-Content -Path $PSScriptRoot\config.json | ConvertFrom-Json
+if (!($global:Config)){
+    Write-Error -Message "Could not find global config at $($PSScriptRoot)\config.json"
+    Exit 1
+}
 # Load our functions
 . "$($global:Config.BaseDir)\src\setup\update_unattend.ps1"
 
@@ -98,8 +102,8 @@ if ($Sync){
 }
 
 # Update Unattend.xml
-$unattend = "$($PSScriptRoot)\artifacts\Unattend.xml"
-$server = Get-Content -Path "artifacts\facts.json" | ConvertFrom-Json
+$unattend = "$($global:Config.BaseDir)\src\artifacts\Unattend.xml"
+$server = Get-Content -Path "$($global:Config.BaseDir)\src\artifacts\facts.json" | ConvertFrom-Json
 Write-Host "Updating Unattend.xml..." -ForegroundColor DarkGreen
 Set-Hostname -Hostname $server.Hostname -UnattendXmlPath $unattend
 Set-WindowsInstallWim -WimPath $server.WimPath -Flavour $server.Flavour  -UnattendXmlPath $unattend
@@ -108,7 +112,7 @@ Copy-Item $unattend -Destination "$($global:Config.BaseDir)\Public\Windows\2022\
 # Copy answer file to Network Image
 Write-Host "Copying answer file to Image..." -ForegroundColor DarkGreen
 try{
-    Copy-Item -Path .\artifacts\Unattend.xml -Destination ..\Public\Windows\2022\Unattend.xml
+    Copy-Item -Path $unattend -Destination "$($global:Config.BaseDir)\Public\Windows\2022\Unattend.xml"
     exit 0
 }catch{
     exit 1

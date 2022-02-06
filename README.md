@@ -6,9 +6,11 @@
 * ~~Have Puppet install zero touch~~
 * ~~Threading enabled~~
 * ~~Configurable Hostname and Windows Server Flavour~~
-* Fail safe install for puppet, schedule task?
-* Implement Puppet
-* Implement PXE
+* ~~Removed pressa ny key to enter~~
+* ~~Implement Puppet~~
+* Complete Web API Work to start the process
+* Puppet roles flesh out
+* Implement PXE?
 * Add Korean Language
 * ..
 * ..

@@ -1,8 +1,8 @@
 {
     "ADK_PATH": "C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit",
-    "BaseDir": "D:\\DELPOY",
-    "PE_BG_Path": "D:\\DELPOY\\src\\artifacts\\ahsoka_background.jpg",
-    "PE_Startnet_Path": "D:\\DELPOY\\src\\artifacts\\startnet.cmd",
+    "BaseDir": "D:\\DEPLOY",
+    "PE_BG_Path": "D:\\DEPLOY\\src\\artifacts\\ahsoka_background.jpg",
+    "PE_Startnet_Path": "D:\\DEPLOY\\src\\artifacts\\startnet.cmd",
     "Image_Server": "BESTPCGARGUNNOCK",
     "Image_Server_User": "bot",
     "Image_Server_Pass": "iamabot"
