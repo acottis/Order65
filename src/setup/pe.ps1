@@ -13,6 +13,8 @@ function New-WinPE{
 
     $PE_File_Dir = "$($Config.BaseDir)\Staging\WinPE_amd64"
     $PE_ISO_Path = "$($Config.BaseDir)\Staging\WinPE_amd64.iso"
+    $WinPE_OCs_Path = "$($Config.ADK_PATH)\Windows Preinstallation Environment\amd64\WinPE_OCs"
+    $AssessAndDeployKitEnvPath = "$($Config.ADK_PATH)\Deployment Tools\DandISetEnv.bat"
     # Deployment and Imaging Tools Enviroment command line
     
     # Force Remove old artifacts
@@ -30,25 +32,27 @@ function New-WinPE{
         
         # Create the windowsPE files from the ADK
         Write-Host "Create the WinPE Folder and WIM to $($PE_File_Dir)..." -ForegroundColor Yellow
-        cmd.exe /c """$($Config.AssessAndDeployKitEnvPath)"" && copype amd64 $($PE_File_Dir)" | Out-Null
+        cmd.exe /c """$($AssessAndDeployKitEnvPath)"" && copype amd64 $($PE_File_Dir)" | Out-Null
     }
     
     # Expand the boot.wim
     Write-Host "Expanding PE boot.wim from $($PE_File_Dir)\media\sources\boot.wim..." -ForegroundColor Yellow
     DISM /Mount-Image /imagefile:"$($PE_File_Dir)\media\sources\boot.wim" /Index:1 /MountDir:"$($PE_File_Dir)\mount" /Quiet
     
-    
+    Write-Host "Changing the efisys.bin to the one without the press any key..." -ForegroundColor Yellow
+    Copy-Item -Path $PE_File_Dir\fwfiles\efisys.bin -Destination $PE_File_Dir\fwfiles\efisys.bin.bak
+    Copy-Item -Path "$($Config.ADK_PATH)\Deployment Tools\amd64\Oscdimg\efisys_noprompt.bin" -Destination $PE_File_Dir\fwfiles\efisys.bin
     # WinPE-WMI > WinPE-NetFX > WinPE-Scripting before you install WinPE-PowerShell.
     # Mininmum required for powershell
     if ($Powershell) {
         Write-Host "Installing WMI to the WinPE..." -ForegroundColor Yellow
-        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($Config.WinPE_OCs_Path)\WinPE-WMI.cab" /Quiet
+        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($WinPE_OCs_Path)\WinPE-WMI.cab" /Quiet
         Write-Host "Installing NetFX to the WinPE..." -ForegroundColor Yellow
-        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($Config.WinPE_OCs_Path)\WinPE-NetFX.cab" /Quiet
+        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($WinPE_OCs_Path)\WinPE-NetFX.cab" /Quiet
         Write-Host "Installing Scripting to the WinPE..." -ForegroundColor Yellow
-        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($Config.WinPE_OCs_Path)\WinPE-Scripting.cab" /Quiet
+        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($WinPE_OCs_Path)\WinPE-Scripting.cab" /Quiet
         Write-Host "Installing Powershell to the WinPE..." -ForegroundColor Yellow
-        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($Config.WinPE_OCs_Path)\WinPE-PowerShell.cab" /Quiet
+        Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:"$($WinPE_OCs_Path)\WinPE-PowerShell.cab" /Quiet
         # Do we need language packs? Looks like I dont
         # Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:$base_package_dir"en-gb\WinPE-WMI_en-gb.cab"
         # Dism /Add-Package /Image:"$($PE_File_Dir)\mount" /PackagePath:$base_package_dir"en-gb\WinPE-PowerShell_en-gb.cab"
@@ -73,5 +77,5 @@ function New-WinPE{
     DISM /Unmount-Image /MountDir:"$($PE_File_Dir)\mount" /Commit /Quiet
     
     # Create the ISO
-    cmd.exe /c """$($Config.AssessAndDeployKitEnvPath)"" && Makewinpemedia /iso /f $($PE_File_Dir) $($PE_ISO_Path) 2>NUL" | Out-Null
+    cmd.exe /c """$($AssessAndDeployKitEnvPath)"" && Makewinpemedia /iso /f $($PE_File_Dir) $($PE_ISO_Path) 2>NUL" | Out-Null
 }

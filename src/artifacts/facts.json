@@ -1,0 +1,6 @@
+{
+    "Hostname": "Korraban",
+    "Flavour": "StandardDesktop",
+    "WimPath": "Z:\\Windows\\2022\\sources\\install.wim",
+    "Role": "DC"
+}

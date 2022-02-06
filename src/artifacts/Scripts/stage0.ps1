@@ -8,3 +8,7 @@ if (!(Test-NetConnection "$($IMAGE_SERVER)" -Port $Port)){
 New-PSDrive -Name Z -Root "\\$($IMAGE_SERVER)\Deploy" -PSProvider FileSystem -Credential $creds -Scope Script | Out-Null
 Copy-Item -Path Z:\Scripts\entry.ps1 -Destination "$($PSScriptRoot)\entry.ps1"
 . "$($PSScriptRoot)\entry.ps1"
+
+@{
+    role = "DC"
+} | ConvertTo-JSON | Out-File C:\ProgramData\PuppetLabs\facter\facts.d\facts.json -Encoding ascii

@@ -12,6 +12,14 @@ param (
     $Sync = $false # Wipe out the exisiting image and files
 )
 
+# Boot me out if I am not Admin
+$current_principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+$admin = $current_principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (!$admin) {
+    Write-Error -Message "Cannot run this script without admin rights, exiting"
+    Exit 5
+}
+
 # Our base directory for all things PE
 $global:Config = Get-Content -Path config.json | ConvertFrom-Json
 # Load our functions
@@ -68,30 +76,30 @@ if ($Sync){
         Write-Host "Starting Job: $($job.name)..." -ForegroundColor DarkGreen
     }
     # Wait until jobs finish
-    # Do{
-    #     foreach($job in Get-Job){
-    #         if ($job.State -eq "Completed" ){
-    #             Receive-Job $job
-    #             Write-Host "Job: $($job.name) completed sucessfully" -ForegroundColor Magenta
-    #             Remove-Job $job
-    #         }elseif ($job.State -ne "Running") {
-    #             Receive-Job $job
-    #             Write-Host "Job: $($job.name) WTF" -ForegroundColor Magenta
-    #             Remove-Job $job
-    #             # $job
-    #             # Debug-Job $job
-    #             # exit 1
-    #         }else{}
-    #     }  
-    # } while (Get-Job)
+    Do{
+        foreach($job in Get-Job){
+            if ($job.State -eq "Completed" ){
+                Receive-Job $job
+                Write-Host "Job: $($job.name) completed sucessfully" -ForegroundColor Magenta
+                Remove-Job $job
+            }elseif ($job.State -ne "Running") {
+                Receive-Job $job
+                Write-Host "Job: $($job.name) WTF" -ForegroundColor Magenta
+                Remove-Job $job
+                # $job
+                # Debug-Job $job
+                # exit 1
+            }else{}
+        }  
+    } while (Get-Job)
 
-    get-job | wait-job
-    get-job | remove-job
+    # get-job | wait-job
+    # get-job | remove-job
 }
 
 # Update Unattend.xml
 $unattend = "$($PSScriptRoot)\artifacts\Unattend.xml"
-$server = Get-Content -Path "Server.json" | ConvertFrom-Json
+$server = Get-Content -Path "artifacts\facts.json" | ConvertFrom-Json
 Write-Host "Updating Unattend.xml..." -ForegroundColor DarkGreen
 Set-Hostname -Hostname $server.Hostname -UnattendXmlPath $unattend
 Set-WindowsInstallWim -WimPath $server.WimPath -Flavour $server.Flavour  -UnattendXmlPath $unattend
