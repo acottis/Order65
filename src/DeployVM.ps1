@@ -6,6 +6,9 @@ Param(
     [Int]$Memory = 2,
     [Int]$Cores = 2,
     [Int]$VhdSize = 20,
+    [String]$OS = "Windows2022",
+    [String]$Flavour = "StandardDesktop",
+    [String]$Role = "DC",
     [String]$NetSwitch = "External",
     [switch]$Force
 )
@@ -22,7 +25,7 @@ if (!$admin) {
 if ($Force){
     Stop-VM -name $Hostname -force -ErrorAction SilentlyContinue
     Remove-VM -Name $Hostname -force -ErrorAction SilentlyContinue
-    Remove-Item -Path "D:\HyperV\$($Hostname)\" -Recurse -force -ErrorAction SilentlyContinue
+    Remove-Item -Path "$($CONFIG.HyperVRoot)\$($Hostname)\" -Recurse -force -ErrorAction SilentlyContinue
 }
 
 # $switches = Get-VMSwitch | -Expand Select-Object Name
@@ -45,10 +48,23 @@ $dvd = Add-VMDvdDrive -Path D:\DEPLOY\Staging\WinPE_amd64.iso -vm $vm -Passthru
 Set-VMFirmware -vm $vm -FirstBootDevice $dvd
 
 # Get the serial number
-$serial = Get-CimInstance -Namespace root/virtualization/v2 -ClassName Msvm_VirtualSystemSettingData | Where-Object VirtualSystemIdentifier -eq $vm.id | Select-Object -Last 1 | Select-Object BIOSSerialNumber
+$serial = Get-CimInstance -Namespace root/virtualization/v2 -ClassName Msvm_VirtualSystemSettingData | Where-Object VirtualSystemIdentifier -eq $vm.id | Select-Object -Last 1 | Select-Object -Expand BIOSSerialNumber
+
+# Create JSON from the API facts
+$json = @{
+    hostname = $hostname
+    os = $os
+    role = $role
+    flavour = $flavour
+    wim_path = "Z:\Windows\2022\sources\install.wim"
+} | ConvertTo-Json -EnumsAsStrings
+
+# Write the JSON to file
+$json | Out-File -FilePath "$($CONFIG.BaseDir)\Public\Configs\$($serial).json"
 
 Start-VM -Name $vm.name
 
 # Output back to rust web server
 Write-Output $vm | Select-Object Name, Id, CPUUsage, MemoryAssigned, `
-    Uptime, Status, State, ProcessorCount | ConvertTo-Json -EnumsAsStrings -Compress
+    Uptime, Status, State, ProcessorCount | `
+    ConvertTo-Json -EnumsAsStrings -Compress

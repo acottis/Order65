@@ -5,9 +5,10 @@ if (!(Test-NetConnection "$($IMAGE_SERVER)" -Port $Port)){
     throw "Cannot connect to $($IMAGE_SERVER) on Port $($Port)... TODO ALERTING HERE"
     exit 1
 }
-New-PSDrive -Name Z -Root "\\$($IMAGE_SERVER)\Deploy" -PSProvider FileSystem -Credential $creds -Scope Script | Out-Null
-Copy-Item -Path Z:\Scripts\entry.ps1 -Destination "$($PSScriptRoot)\entry.ps1"
-. "$($PSScriptRoot)\entry.ps1"
+New-PSDrive -Name Z -Root "\\$($IMAGE_SERVER)\Public" -PSProvider FileSystem -Credential $creds -Scope Script | Out-Null
+Copy-Item -Path Z:\Scripts\FirstRun.ps1 -Destination "$($PSScriptRoot)\FirstRun.ps1"
+# Run the file
+. "$($PSScriptRoot)\FirstRun.ps1"
 
 @{
     role = "DC"

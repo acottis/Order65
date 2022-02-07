@@ -56,8 +56,10 @@ function Set-StartnetCmd{
     Update-AclFullAccess -path $Destination
     Remove-Item -Path $Destination
 
-    Copy-Item -Path $Config.PE_Startnet_Path -destination $Destination
+    Copy-Item -Path $Config.PE_Startnet_Path -Destination $Destination
     Add-Content -Path $Destination -Value "`r`n"
     Add-Content -Path $Destination -Value "net use Z: \\$($Config.Image_Server)\Public /user:$($Config.Image_Server_User) $($Config.Image_Server_Pass)"
-    Add-Content -Path $Destination -Value "Z:\Windows\2022\setup.exe -unattend:`"Z:\Windows\2022\Unattend.xml`""
+    Add-Content -Path $Destination -Value "copy Z:\Scripts\Stage0.ps1 ."
+    Add-Content -Path $Destination -Value "Powershell -ExecutionPolicy bypass -File `"%~dp0stage0.ps1`""
+    Add-Content -Path $Destination -Value "Z:\Windows\2022\setup.exe -unattend:`"Unattend.xml`""
 }

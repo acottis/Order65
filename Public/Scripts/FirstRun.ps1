@@ -25,8 +25,8 @@ if (!(Test-Install -DisplayName "Puppet Agent*")){
         throw "Cannot connect to $($IMAGE_SERVER) on Port $($Port)... TODO ALERTING HERE"
         exit 1
     }
-    Write-Host "Mapping \\$($IMAGE_SERVER)\Deploy to X" -ForegroundColor DarkGreen
-    New-PSDrive -Name X -Root "\\$($IMAGE_SERVER)\Deploy" -PSProvider FileSystem -Credential $creds -Scope Script | Out-Null
+    Write-Host "Mapping \\$($IMAGE_SERVER)\Public to X" -ForegroundColor DarkGreen
+    New-PSDrive -Name X -Root "\\$($IMAGE_SERVER)\Public" -PSProvider FileSystem -Credential $creds -Scope Script | Out-Null
     Write-Host "Copying puppet installer to C:\Windows\Temp" -ForegroundColor DarkGreen
     Copy-Item -Path X:\Windows\Software\puppet-agent-x64.msi -Destination C:\Windows\Temp
     Write-Host "Starting the Puppet Install..." -ForegroundColor DarkGreen

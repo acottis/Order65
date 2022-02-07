@@ -1,0 +1,7 @@
+{
+  "flavour": "StandardDesktop",
+  "os": "Windows2022",
+  "hostname": "NewVM",
+  "wim_path": "Z:\\Windows\\2022\\sources\\install.wim",
+  "role": "DC"
+}

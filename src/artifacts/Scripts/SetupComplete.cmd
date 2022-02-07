@@ -1,1 +1,1 @@
-powershell -ExecutionPolicy bypass -File "%~dp0stage0.ps1"
+powershell -ExecutionPolicy bypass -File "%~dp0SetupComplete.ps1"

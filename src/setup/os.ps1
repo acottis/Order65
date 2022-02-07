@@ -17,7 +17,7 @@ function Update-InstallWim{
         Write-Host "Skipping en-GB install as it is already in the image" -ForgroundColor Yellow
     }
     write-host "Copying SetupComplete.cmd and scripts to install.wim..." -ForgroundColor Yellow
-    Copy-Item -Path "$($global:Config.BaseDir)\src\Artifacts\Scripts" -Destination "$($global:Config.BaseDir)\Staging\WinInstallMount\Windows\Setup\Scripts" -Recurse -Force
+    Copy-Item -Path "$($global:Config.BaseDir)\src\Artifacts\Scripts\" -Destination "$($global:Config.BaseDir)\Staging\WinInstallMount\Windows\Setup\Scripts\" -Recurse -Force
     write-host "Unmounting and saving changes to install.wim..." -ForgroundColor Yellow
     Dismount-WindowsImage -Path "$($global:Config.BaseDir)\Staging\WinInstallMount" -Save -ErrorAction Stop
 }
