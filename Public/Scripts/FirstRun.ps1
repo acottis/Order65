@@ -32,7 +32,7 @@ if (!(Test-Install -DisplayName "Puppet Agent*")){
     Write-Host "Starting the Puppet Install..." -ForegroundColor DarkGreen
     Start-Process msiexec -ArgumentList "/qn","/norestart","/i C:\Windows\Temp\puppet-agent-x64.msi PUPPET_MASTER_SERVER=puppet" -NoNewWindow -Wait
     if (!(Test-Install -DisplayName "Puppet Agent*")) {
-        throw "Puppet agent not found, cant contine... TODO ALERTING HERE"
+        throw "Puppet agent not found, cant contine..."
         exit 1
     }
 }else{
